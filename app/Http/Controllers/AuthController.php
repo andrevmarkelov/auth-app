@@ -22,11 +22,11 @@ class AuthController extends Controller
     {
         try {
             $user = $this->createUser($request->validated());
+            $token = $user->createToken('API Token')->plainTextToken;
 
-            return response(['status' => 'success', 'response' => ['user' => $user]]);
+            return response(['status' => 'success', 'response' => ['access' => ['token_type' => 'Bearer', 'token' => $token]]]);
         } catch (Exception $e) {
             return response(['status' => 'error', 'response' => [$e->getMessage()]], HttpResponse::HTTP_BAD_REQUEST);
         }
-
     }
 }
